@@ -3,10 +3,10 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - PerformanceGroupTest',
-    title: 'PerformanceGroupTest',
+    titleTemplate: '%s',
+    title: 'Тестовое задание',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ru'
     },
     meta: [
       { charset: 'utf-8' },
