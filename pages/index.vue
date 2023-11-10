@@ -1,83 +1,81 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+  <div class="main-page">
+    <h1>Список пользователей</h1>
+    <table class="main-page__table">
+      <thead>
+        <tr>
+          <th>Имя</th>
+          <th>E-mail</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in users" :key="user.id">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
-<script>
-export default {
-  name: 'IndexPage'
-}
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "IndexPage",
+
+  async asyncData({ app }) {
+    const users = await app.$api.getUsers();
+    return { users: users };
+  },
+});
 </script>
+
+<style lang="scss" scoped>
+$shadow: #0e1119;
+$red: #fb667a;
+$row-hover: #464a52;
+.main-page {
+  &__table {
+    text-align: left;
+    overflow: hidden;
+    width: 80%;
+    margin: 0 auto;
+    display: table;
+    padding: 0 0 8em 0;
+
+    td {
+      font-weight: normal;
+      font-size: 1em;
+      box-shadow: 0 2px 2px -2px $shadow;
+    }
+
+    td,th {
+      padding: 2% 0 2% 2%;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #323c50;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #2c3446;
+    }
+
+    th {
+      background-color: #1f2739;
+      cursor: default;
+    }
+
+    td:first-child {
+      color: $red;
+    }
+
+    tr:hover {
+      cursor: pointer;
+      background-color: $row-hover;
+      box-shadow: 0 6px 6px -6px $shadow;
+    }
+  }
+}
+</style>
