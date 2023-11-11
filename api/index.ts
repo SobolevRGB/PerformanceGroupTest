@@ -1,8 +1,9 @@
 import axios from 'axios'
+import {AxiosInstance} from 'axios'
 import Vue from 'vue'
 
 interface Api {
-  localAxios: any;
+  localAxios: AxiosInstance;
   getUsers (): Promise<[]>;
   getUser (userId: number): Promise<{}>;
   getUserPosts (userId: number): Promise<[]>;
