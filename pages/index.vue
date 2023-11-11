@@ -9,10 +9,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr 
-        v-for="{ name, email, id } in users" 
-        :key="id" 
-        @click="goToUser(id)"
+        <tr
+          v-for="{ name, email, id } in users"
+          :key="id"
+          @click="goToUser(id)"
         >
           <td>{{ name }}</td>
           <td>{{ email }}</td>
@@ -33,9 +33,9 @@ export default defineComponent({
   },
   methods: {
     goToUser(userId: number): void {
-      this.$router.push(`/users/${userId}`)
+      this.$router.push(`/users/${userId}`);
     },
-  }
+  },
 });
 </script>
 
@@ -56,6 +56,9 @@ $row-hover: #464a52;
       font-weight: normal;
       font-size: 1em;
       box-shadow: 0 2px 2px -2px $shadow;
+      &:first-child {
+      color: $red;
+    }
     }
 
     th {
@@ -68,22 +71,18 @@ $row-hover: #464a52;
       padding: 2% 0 2% 2%;
     }
 
-    tr:nth-child(odd) {
-      background-color: #323c50;
-    }
-
-    tr:nth-child(even) {
-      background-color: #2c3446;
-    }
-
-    td:first-child {
-      color: $red;
-    }
-
-    tr:hover {
-      cursor: pointer;
-      background-color: $row-hover;
-      box-shadow: 0 6px 6px -6px $shadow;
+    tr {
+      &:nth-child(odd) {
+        background-color: #323c50;
+      }
+      &:nth-child(even) {
+        background-color: #2c3446;
+      }
+      &:hover {
+        cursor: pointer;
+        background-color: $row-hover;
+        box-shadow: 0 6px 6px -6px $shadow;
+      }
     }
   }
 }
