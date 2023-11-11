@@ -9,9 +9,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" :key="user.id">
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
+        <tr 
+        v-for="{ name, email, id } in users" 
+        :key="id" 
+        @click="goToUser(id)"
+        >
+          <td>{{ name }}</td>
+          <td>{{ email }}</td>
         </tr>
       </tbody>
     </table>
@@ -23,11 +27,15 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "IndexPage",
-
   async asyncData({ app }) {
     const users = await app.$api.getUsers();
     return { users: users };
   },
+  methods: {
+    goToUser(userId: number): void {
+      this.$router.push(`/users/${userId}`)
+    },
+  }
 });
 </script>
 
@@ -39,7 +47,7 @@ $row-hover: #464a52;
   &__table {
     text-align: left;
     overflow: hidden;
-    width: 80%;
+    width: 50%;
     margin: 0 auto;
     display: table;
     padding: 0 0 8em 0;
@@ -50,21 +58,22 @@ $row-hover: #464a52;
       box-shadow: 0 2px 2px -2px $shadow;
     }
 
-    td,th {
+    th {
+      background-color: #1f2739;
+      cursor: default;
+    }
+
+    td,
+    th {
       padding: 2% 0 2% 2%;
     }
 
     tr:nth-child(odd) {
       background-color: #323c50;
     }
-    
+
     tr:nth-child(even) {
       background-color: #2c3446;
-    }
-
-    th {
-      background-color: #1f2739;
-      cursor: default;
     }
 
     td:first-child {
