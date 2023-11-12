@@ -2,10 +2,12 @@
   <div class="user-page">
     <h1>Пользователь {{ user.name }}</h1>
 
+    <span></span>
+
     {{ user }}
 
     <div v-for="{ title, body, id } in posts" :key="id" class="user-page__post">
-      <span>{{ title }}</span>
+      <span>№{{ id }}.  {{ title }}</span>
       <span>{{ body }}</span>
     </div>
 
@@ -20,10 +22,10 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "UserPage",
-  data() {
-    return {
-      posts: [],
-    };
+  computed: { 
+    posts () {
+      return this.$store.state.posts
+    }
   },
   async asyncData({ app, params }) {
     const user = await app.$api.getUser(Number(params.id));
@@ -31,7 +33,7 @@ export default defineComponent({
   },
   methods: {
     async getPosts() {
-      this.posts = await this.$api.getUserPosts(Number(this.user.id));
+      await this.$store.dispatch('getPosts', Number(this.user.id));
     },
   },
 });

@@ -13,13 +13,13 @@ const api: Api = {
   localAxios: axios.create({
     baseURL: 'https://jsonplaceholder.typicode.com',
   }),
-  async getUsers () {
+  async getUsers (): Promise<[]> {
     return (await this.localAxios.get('users')).data;
   },
-  async getUser (userId: number) {
+  async getUser (userId: number): Promise<{}> {
     return (await this.localAxios.get(`users/${userId}`)).data;
   },
-  async getUserPosts (userId: number) {
+  async getUserPosts (userId: number): Promise<[]> {
     return (await this.localAxios.get(`posts?userId=${userId}`)).data;
   }
 }
