@@ -10,7 +10,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="{ name, email, id } in users"
+          v-for="{ name, email, id } in paginatedUsers"
           :key="id"
           @click="goToUser(id)"
         >
@@ -19,6 +19,18 @@
         </tr>
       </tbody>
     </table>
+    <div class="main-page__actions-btns">
+      <button class="nice-btn" @click="prevPage" :disabled="pageNumber == 0">
+        Пред.
+      </button>
+      <button
+        class="nice-btn"
+        @click="nextPage"
+        :disabled="pageNumber >= pageCount - 1"
+      >
+        След.
+      </button>
+    </div>
   </div>
 </template>
 
@@ -31,9 +43,33 @@ export default defineComponent({
     const users = await app.$api.getUsers();
     return { users: users };
   },
+  data() {
+    return {
+      pageNumber: 0,
+      size: 2,
+    };
+  },
+  computed: {
+    pageCount(): number {
+      let l = this.users.length,
+        s = this.size;
+      return Math.ceil(l / s);
+    },
+    paginatedUsers(): [] {
+      const start = this.pageNumber * this.size,
+        end = start + this.size;
+      return this.users.slice(start, end);
+    },
+  },
   methods: {
     goToUser(userId: number): void {
       this.$router.push(`/users/${userId}`);
+    },
+    nextPage(): void {
+      this.pageNumber++;
+    },
+    prevPage(): void {
+      this.pageNumber--;
     },
   },
 });
@@ -44,6 +80,14 @@ $shadow: #0e1119;
 $red: #fb667a;
 $row-hover: #464a52;
 .main-page {
+  &__actions-btns {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    padding: 0 0 8em 0;
+    gap: 20px;
+  }
   &__table {
     text-align: left;
     overflow: hidden;
@@ -57,8 +101,8 @@ $row-hover: #464a52;
       font-size: 1em;
       box-shadow: 0 2px 2px -2px $shadow;
       &:first-child {
-      color: $red;
-    }
+        color: $red;
+      }
     }
 
     th {

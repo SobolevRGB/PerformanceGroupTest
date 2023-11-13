@@ -2,18 +2,46 @@ $h1-color: #fff842;
 $white: #ffffff;
 
 body {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-    font-weight: 400;
-    color: $white;
-    -webkit-font-smoothing: antialiased;
-    background: #2b2b2b;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: $white;
+  -webkit-font-smoothing: antialiased;
+  background: #2b2b2b;
 }
-  h1 {
-    font-size: 3em;
-    font-weight: 300;
-    line-height: 1em;
-    text-align: center;
-    color: $h1-color;
+h1 {
+  font-size: 3em;
+  font-weight: 300;
+  line-height: 1em;
+  text-align: center;
+  color: $h1-color;
+}
+
+.nice-btn {
+  padding: 8px 21px;
+  border-radius: 8px;
+  line-height: 1.25;
+  background: #d87561;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.6s ease;
+  overflow: hidden;
+  &:disabled {
+    background: darken(#352b29, 7%);
   }
+  &:focus,
+  &:hover {
+    background: darken(#832e1d, 7%);
+  }
+  &:active {
+    &:after {
+      width: 300px;
+      height: 300px;
+    }
+  }
+}

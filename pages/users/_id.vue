@@ -1,17 +1,22 @@
 <template>
   <div class="user-page">
-    <h1>Пользователь {{ user.name }}</h1>
+    <h1>Пользователь: {{ user.name }}</h1>
+    <div class="user-page__props">
+      <span>Имя: {{ user.name }}</span>
+      <span>Ник: {{ user.username }}</span>
+      <span>E-mail: <a :href="`mailto:${user.email}`">{{ user.email }}</a></span>
+      <span>Телефон: <a :href="`tel:${user.phone}`">{{ user.phone }}</a></span>
+      <span>Сайт: <a :href="user.website">{{ user.website }}</a></span>
+      <span>Город: {{ user.address.city }}</span>
+      <span>Индекс: {{ user.address.zipcode }}</span>
+    </div>
 
-    <span></span>
-
-    {{ user }}
-
-    <div v-for="{ title, body, id } in posts" :key="id" class="user-page__post">
-      <span>№{{ id }}.  {{ title }}</span>
+    <div v-for="({ title, body, id }, index) in posts" :key="id" class="user-page__post">
+      <span>№{{ index + 1}}.  {{ title }}</span><br>
       <span>{{ body }}</span>
     </div>
 
-    <button class="user-page__btn" v-if="posts.length < 1" @click="getPosts()">
+    <button class="nice-btn" v-if="posts.length < 1" @click="getPosts()">
       Получить записи пользователя
     </button>
   </div>
@@ -33,6 +38,7 @@ export default defineComponent({
   },
   methods: {
     async getPosts() {
+      // Честно сказать - не понял пункт в задании "используйте vuex, чтобы передавать между странницами данные пользователя", поэтому хоть как-то вплёл сюда Vuex)
       await this.$store.dispatch('getPosts', Number(this.user.id));
     },
   },
@@ -40,6 +46,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+$padding-bottom: 20px;
 .user-page {
   text-align: left;
   overflow: hidden;
@@ -48,33 +55,14 @@ export default defineComponent({
   display: table;
   padding: 0 0 8em 0;
 
-  &__post {
-    padding-bottom: 20px;
+  &__props {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: $padding-bottom;
   }
 
-  &__btn {
-    padding: 8px 21px;
-    border-radius: 3px;
-    line-height: 1.25;
-    background: #d87561;
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background-color 0.6s ease;
-    overflow: hidden;
-    &:focus,
-    &:hover {
-      background: darken(#832e1d, 7%);
-    }
-    &:active {
-      &:after {
-        width: 300px;
-        height: 300px;
-      }
-    }
+  &__post {
+    padding-bottom: $padding-bottom;
   }
 }
 </style>
